@@ -18,7 +18,8 @@ SOURCE_DIR=$( dirname $( readlink -f "$0" ) )
 # Disable DMPS (Display Power Management Signaling) and prevent screen from blanking
 xset s off -dpms
 
-# Keep mouse hidden
+# Keep mouse hidden and out of the way
+xdotool mousemove 0 0
 unclutter -idle 0 &
 
 # TODO Remove this when --disable-session-crashed-bubble works
