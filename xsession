@@ -1,0 +1,60 @@
+#!/bin/sh
+
+# Setup:
+#   - Run bootstrap.sh
+#   - Add URLs to cycle through to urls.txt. Ideally these should not require logins, but if necessary you can modify below to send key presses.
+
+# Config:
+
+RESOLUTION_X=1920
+RESOLUTION_Y=1080
+
+TAB_SWITCH_INTERVAL=30
+
+########
+
+SOURCE_DIR=$( dirname $( readlink -f "$0" ) )
+
+# Disable DMPS (Display Power Management Signaling) and prevent screen from blanking
+xset s off -dpms
+
+# Keep mouse hidden
+unclutter -idle 0 &
+
+# TODO Remove this when --disable-session-crashed-bubble works
+sed -i 's/\("exited_cleanly": *\)false/\1true/; s/\("exit_type": *\)"Crashed"/\1"None"/' ~/.config/chromium/Default/Preferences
+
+chromium-browser --window-size=${RESOLUTION_X},${RESOLUTION_Y} --window-position=0,0 --start-maximized \
+    --fast --fast-start \
+    --no-first-run \
+    --noerrdialogs \
+    --disable-infobars \
+    --disable-session-crashed-bubble \
+    --disable-suggestions-service \
+    --kiosk \
+    $( cat $SOURCE_DIR/urls.txt | tr '\n' ' ' ) &
+
+PID=$!
+
+# NOTE: If you save your login it is possible to press the right keys to log in, but it can be flakey with some websites
+## If the password has been saved in the browser this will log in
+#for i in $( cat $SOURCE_DIR/urls.txt )
+#do
+#  sleep 20
+#  xdotool search --sync --onlyvisible --class "chromium-browser" key Tab
+#  sleep 1
+#  xdotool search --sync --onlyvisible --class "chromium-browser" key Tab
+#  sleep 1
+#  xdotool search --sync --onlyvisible --class "chromium-browser" key Return
+#  sleep 5
+#  xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+Tab
+#done
+
+# While PID is running cycle through tabs
+while [ -n "$( ps -p $PID -o pid= )" ]
+do
+  sleep ${TAB_SWITCH_INTERVAL}
+  xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+Tab
+done
+
+wait $PID
