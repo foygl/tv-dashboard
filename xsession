@@ -33,13 +33,13 @@ chromium-browser --window-size=${RESOLUTION_X},${RESOLUTION_Y} --window-position
     --disable-session-crashed-bubble \
     --disable-suggestions-service \
     --kiosk \
-    $( cat $SOURCE_DIR/urls.txt | tr '\n' ' ' ) &
+    $( grep -v '^#' $SOURCE_DIR/urls.txt | tr '\n' ' ' ) &
 
 PID=$!
 
 # NOTE: If you save your login it is possible to press the right keys to log in, but it can be flakey with some websites
 ## If the password has been saved in the browser this will log in
-#for i in $( cat $SOURCE_DIR/urls.txt )
+#for i in $( grep -v '^#' $SOURCE_DIR/urls.txt )
 #do
 #  sleep 20
 #  xdotool search --sync --onlyvisible --class "chromium-browser" key Tab
