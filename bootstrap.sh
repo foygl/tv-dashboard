@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "# Grabbing dependencies"
-sudo apt-get install chromium-browser xorg lightdm x11-xserver-utils vim unclutter xdotool
+sudo apt-get install chromium-browser xorg lightdm x11-xserver-utils unclutter xdotool
 
 echo "# Setting up auto login for ${USER}"
 sudo sed -i 's/^#*autologin-user=.*/autologin-user='${USER}'/' /etc/lightdm/lightdm.conf
