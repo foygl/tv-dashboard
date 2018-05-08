@@ -6,8 +6,8 @@
 
 # Config:
 
-RESOLUTION_X=1920
-RESOLUTION_Y=1080
+RESOLUTION_X=`xdpyinfo | grep dimensions | awk '{ print $2 }' | sed 's/x.*//'`
+RESOLUTION_Y=`xdpyinfo | grep dimensions | awk '{ print $2 }' | sed 's/.*x//'`
 
 TAB_SWITCH_INTERVAL=30
 
