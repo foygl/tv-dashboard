@@ -2,4 +2,4 @@
 
 export DISPLAY=:0.0
 
-xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+r
+xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+shift+r
