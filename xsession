@@ -59,12 +59,12 @@ do
   xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+Tab
 
   # Refresh at regular intervals
-  if [ $( $i % 13 ) -eq 0 ] || [ $( $i % 17 ) -eq 0 ]
+  if [ $(( $i % 13 )) -eq 0 ] || [ $(( $i % 17 )) -eq 0 ]
   then
     xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+shift+r
   fi
 
-  i=$( $i + 1 )
+  i=$(( $i + 1 ))
 done
 
 wait $PID
