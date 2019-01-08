@@ -52,10 +52,19 @@ PID=$!
 #done
 
 # While PID is running cycle through tabs
+i=1
 while [ -n "$( ps -p $PID -o pid= )" ]
 do
   sleep ${TAB_SWITCH_INTERVAL}
   xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+Tab
+
+  # Refresh at regular intervals
+  if [ $( $i % 13 ) -eq 0 ] || [ $( $i % 17 ) -eq 0 ]
+  then
+    xdotool search --sync --onlyvisible --class "chromium-browser" key ctrl+shift+r
+  fi
+
+  i=$( $i + 1 )
 done
 
 wait $PID
